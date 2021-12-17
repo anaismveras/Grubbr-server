@@ -26,11 +26,13 @@ const handle404 = customErrors.handle404
 const router = express.Router()
 
 // READ ALL users profile
-router.get('/profile', requireToken, (req, res, next) => {
-    Profile.find({})
+router.get('/profile/restaurantLikers', requireToken, (req, res, next) => {
+    Profile.find({
+        _id: {$in: req.body.userIds}
+    })
         .then(handle404)
-        .then(foundProfile => {
-        res.json(foundProfile)
+        .then(foundUsers => {
+        res.json(foundUsers)
         })
     .catch(err => console.log(err))
 })
@@ -53,7 +55,12 @@ router.post('/profile', requireToken, (req, res, next) => {
         userId: req.user._id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        zipCode: req.body.zipCode
+        zipCode: req.body.zipCode,
+        bio: req.body.bio,
+        photo: req.body.photo,
+        liked: req.body.liked,
+        visited: req.body.visited,
+        matchedUsers: req.body.matchedUsers
     })
         .then(handle404)
         .then(createdProfile => {
