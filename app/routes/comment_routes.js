@@ -61,7 +61,7 @@ router.post('/comments/:restaurantId', requireToken, (req, res, next) => {
         })
         .then(restaurant => {
             // return the restaurant and send the status with json
-            res.status(201).json({ restaurant: restaurant.toObject() })
+            res.status(201).json(restaurant)
         })
         // if any errors happen, send them to the handler
         .catch(next)
